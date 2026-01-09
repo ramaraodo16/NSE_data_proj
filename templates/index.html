@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NIFTY Top Gainers & Losers</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .main {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .left { width: 80%; }
+        .right { width: 20%; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        /* Alignment rules */
+        .symbol {
+            text-align: left;
+        }
+
+        .num {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .up {
+            color: green;
+            font-weight: bold;
+        }
+
+        .down {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Smaller right tables */
+        .small th, .small td {
+            padding: 6px;
+            font-size: 12px;
+        }
+    </style>
+    <script>
+    // Refresh page every 10 minutes (600000 ms)
+    setTimeout(function () {
+        window.location.reload();
+    }, 600000);
+</script>
+
+</head>
+
+<body>
+
+<h2>NIFTY 50 – Top Gainers & Top Losers</h2>
+
+<div class="main">
+
+    <!-- LEFT BIG TABLES -->
+    <div class="left">
+
+        <!-- TOP GAINERS -->
+        <table>
+            <tr><th colspan="4">Top Gainers</th></tr>
+            <tr>
+                <th class="symbol">Symbol</th>
+                <th class="num">Last</th>
+                <th class="symbol">Change</th>
+                <th class="num">% Change</th>
+                <th class="num">Volume</th>
+                
+            </tr>
+            {% for s in gainers %}
+            <tr>
+                <td class="symbol">{{ s.symbol }}</td>
+                <td class="num">{{ "%.2f"|format(s.lastPrice) }}</td>
+                <td class="num {% if s.change > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.change) }}
+                </td>
+                <td class="num up">{{ "%.2f"|format(s.pChange) }}%</td>
+                <td class="num">{{ "{:,}".format(s.totalTradedVolume) }}</td>
+                
+
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- TOP LOSERS -->
+        <table>
+            <tr><th colspan="5">Top Losers</th></tr>
+            <tr>
+                <th class="symbol">Symbol</th>
+                <th class="num">Last</th>
+                <th class="symbol">Change</th>
+                <th class="num">% Change</th>
+                <th class="num">Volume</th>
+                
+            </tr>
+            {% for s in losers %}
+            <tr>
+                <td class="symbol">{{ s.symbol }}</td>
+                <td class="num">{{ "%.2f"|format(s.lastPrice) }}</td>
+                <td class="num {% if s.change > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.change) }}
+                </td>
+                <td class="num down">{{ "%.2f"|format(s.pChange) }}%</td>
+                <td class="num">{{ "{:,}".format(s.totalTradedVolume) }}</td>
+                
+
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+    <!-- RIGHT SMALL TABLES -->
+    <div class="right">
+
+        <!-- SMALL GAINERS -->
+        <table class="small">
+            <tr><th colspan="5">Top Gainers</th></tr>
+            <tr>
+                <th class="symbol">Symbol</th>
+                <th class="num">Last</th>
+                <th class="symbol">change</th>
+                <th class="num">% Chg</th>
+                <th class="num">Vol</th>
+                
+                
+            </tr>
+            {% for s in gainers %}
+            <tr>
+                <td class="symbol">{{ s.symbol }}</td>
+                <td class="num">{{ "%.2f"|format(s.lastPrice) }}</td>
+                <td class="num {% if s.change > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.change) }}
+                </td>
+                <td class="num up">{{ "%.2f"|format(s.pChange) }}%</td>
+                <td class="num">{{ "{:,}".format(s.totalTradedVolume) }}</td>
+                
+
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- SMALL LOSERS -->
+        <table class="small">
+            <tr><th colspan="5">Top Losers</th></tr>
+            <tr>
+                <th class="symbol">Symbol</th>
+                <th class="num">Last</th>
+                <th class="symbol">Change</th>
+                <th class="num">% Chg</th>
+                <th class="num">Vol</th>
+                
+            </tr>
+            {% for s in losers %}
+            <tr>
+                <td class="symbol">{{ s.symbol }}</td>
+                <td class="num">{{ "%.2f"|format(s.lastPrice) }}</td>
+                <td class="num {% if s.change > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.change) }}
+                </td>
+                <td class="num down">{{ "%.2f"|format(s.pChange) }}%</td>
+                <td class="num">{{ "{:,}".format(s.totalTradedVolume) }}</td>
+                
+
+            </tr>
+            {% endfor %}
+        </table>
+        <!-- TOP BANKS (DYNAMIC) -->
+        <table class="small">
+            <tr><th colspan="5">🏦 Top Banks (Volume)</th></tr>
+            <tr>
+                <th class="symbol">Symbol</th>
+                <th class="num">Last</th>
+                <th class="symbol">Change</th>
+                <th class="num">% Chg</th>
+                <th class="num">Volume</th>
+                
+            </tr>
+            {% for s in top_bank_volume %}
+            <tr>
+                <td class="symbol">{{ s.symbol }}</td>
+                <td class="num">{{ "%.2f"|format(s.lastPrice) }}</td>
+                <td class="num {% if s.change > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.change) }}
+                </td>
+                <td class="num {% if s.pChange > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.pChange) }}%
+                </td>
+                <td class="num">{{ "{:,}".format(s.totalTradedVolume) }}</td>
+                
+
+            </tr>
+            {% endfor %}
+        </table>
+        <!-- TOP IT (DYNAMIC) -->
+        <table class="small">
+            <tr><th colspan="5">💻 Top IT</th></tr>
+            <tr>
+                <th class="symbol">Symbol</th>
+                <th class="num">Last</th>
+                <th class="symbol">Change</th>
+                <th class="num">% Chg</th>
+                <th class="num">Volume</th>
+                
+            </tr>
+            {% for s in top_it %}
+            <tr>
+                <td class="symbol">{{ s.symbol }}</td>
+                <td class="num">{{ "%.2f"|format(s.lastPrice) }}</td>
+                <td class="num {% if s.change > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.change) }}
+                </td>
+                <td class="num {% if s.pChange > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.pChange) }}%
+                </td>
+                <td class="num">{{ "{:,}".format(s.totalTradedVolume) }}</td>
+                
+
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- TOP OTHER (DYNAMIC) -->
+        <table class="small">
+            <tr><th colspan="5">📊 Top Others</th></tr>
+            <tr>
+                <th class="symbol">Symbol</th>
+                <th class="num">Last</th>
+                <th class="symbol">Change</th>
+                <th class="num">% Chg</th>
+                <th class="num">Volume</th>
+                
+            </tr>
+            {% for s in top_other %}
+            <tr>
+                <td class="symbol">{{ s.symbol }}</td>
+                <td class="num">{{ "%.2f"|format(s.lastPrice) }}</td>
+                <td class="num {% if s.change > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.change) }}
+                </td>
+                <td class="num {% if s.pChange > 0 %}up{% else %}down{% endif %}">
+                    {{ "%.2f"|format(s.pChange) }}%
+                </td>
+                <td class="num">{{ "{:,}".format(s.totalTradedVolume) }}</td>
+                
+
+            </tr>
+            {% endfor %}
+        </table>
+
+
+
+</div>
+
+</body>
+</html>
